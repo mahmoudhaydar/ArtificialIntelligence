@@ -22,17 +22,53 @@ public class Tree<T> {
         this.children = new ArrayList<Tree>();
     }
 
-    public Tree(Tree copy){
-        if(copy==null) return;
-    this.children=new ArrayList<Tree>();
-    this.root=new Node(copy.root);
-    for(Object o:copy.children)
-    {
-        Tree t=(Tree)o;
-        this.children.add(new Tree(t));
+    public void readTree() {
+
+        java.util.Scanner input = new java.util.Scanner(System.in);
+        System.out.println("Enter Nodes of the form: Node, Child1, Child2, ...");
+        System.out.println("double enter to finish");
+        do {
+            String s = input.nextLine();
+            if (s.isEmpty()) {
+                break;
+            }
+            String[] nodes = s.split(",");
+            String parent = nodes[0];
+            for (int i = 1; i < nodes.length; i++) {
+                this.add(nodes[i], parent, 1.0);
+            }
+        } while (true);
+
     }
-    
+
+    public void readHeuristics() {
+        java.util.Scanner input = new java.util.Scanner(System.in);
+        System.out.println("Enter Nodes heuristics values of the form: Node hvalue");
+        System.out.println("enter \"Stop\" to finish (defaul hvalue=0)");
+        do {
+            String s = input.next();
+            double h = input.nextDouble();
+            if (s.compareToIgnoreCase("stop") == 0) {
+                break;
+            }
+            this.getNode(s).root.hvalue = h;
+        } while (true);
+
     }
+
+    public Tree(Tree copy) {
+        if (copy == null) {
+            return;
+        }
+        this.children = new ArrayList<Tree>();
+        this.root = new Node(copy.root);
+        for (Object o : copy.children) {
+            Tree t = (Tree) o;
+            this.children.add(new Tree(t));
+        }
+
+    }
+
     public void print() {
         System.out.print(root.data + ":");
         for (Tree n : children) {
@@ -65,7 +101,7 @@ public class Tree<T> {
         if (root == null) {
             return false;
         }
-        if (node.compareToIgnoreCase((String)root.data)==0) {
+        if (node.compareToIgnoreCase((String) root.data) == 0) {
             return true;
         }
         for (Tree t : children) {
@@ -86,13 +122,15 @@ public class Tree<T> {
     }
 
     Tree getNode(String name) {
-        if (name.compareToIgnoreCase((String)this.root.data)==0) {
+        if (name.compareToIgnoreCase((String) this.root.data) == 0) {
             return this;
         }
         for (Tree t : this.children) {
-            
-            Tree r=t.getNode(name);
-            if(r!=null) return r;
+
+            Tree r = t.getNode(name);
+            if (r != null) {
+                return r;
+            }
 
         }
         return null;
@@ -114,7 +152,7 @@ public class Tree<T> {
             Tree c = new Tree<>();
             Node<String> cnode = new Node<>();
             cnode.data = child;
-            cnode.realCost=cost;
+            cnode.realCost = cost;
             c.root = cnode;
             this.children.add(c);
             return;
@@ -128,12 +166,11 @@ public class Tree<T> {
             c = new Tree<>();
             Node<String> cnode = new Node<>();
             cnode.data = child;
-            cnode.realCost=cost;
-            c.root=cnode;
+            cnode.realCost = cost;
+            c.root = cnode;
         }
         p.children.add(c);
 
     }
 
-    
 }
