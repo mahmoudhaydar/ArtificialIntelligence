@@ -43,17 +43,47 @@ public class Tree<T> {
 
     public void readHeuristics() {
         java.util.Scanner input = new java.util.Scanner(System.in);
-        System.out.println("Enter Nodes heuristics values of the form: Node hvalue");
-        System.out.println("enter \"Stop\" to finish (defaul hvalue=0)");
-        do {
-            String s = input.next();
-            double h = input.nextDouble();
-            if (s.compareToIgnoreCase("stop") == 0) {
-                break;
-            }
-            this.getNode(s).root.hvalue = h;
-        } while (true);
+        if (this.isEmpty()) {
+            System.out.println("Please read the tree beore reading heuristics");
+            return;
+        }
 
+        List<Tree> fring = new ArrayList<>();
+        fring.add(this);
+        while (!fring.isEmpty()) {
+            Tree currentNode = fring.remove(0);
+            System.out.print("\n"+currentNode.root.data + ":");
+            double h = input.nextDouble();
+            currentNode.root.hvalue = h;
+            for (int i = 0; i < currentNode.children.size(); i++) {
+                fring.add((Tree)currentNode.children.get(i));
+            }
+        }
+
+    }
+    public void readCosts()
+    {
+        java.util.Scanner input = new java.util.Scanner(System.in);
+        if (this.isEmpty()) {
+            System.out.println("Please read the tree beore reading costs");
+            return;
+        }
+
+        List<Tree> fring = new ArrayList<>();
+        fring.add(this);
+        while (!fring.isEmpty()) {
+            Tree currentNode = fring.remove(0);
+            if(currentNode.isLeaf()) continue;
+            for (int i = 0; i < currentNode.children.size(); i++) {
+                Tree child=(Tree)currentNode.children.get(i);
+                System.out.print("\n"+currentNode.root.data + "-->"+child.root.data+": ");
+                double h = input.nextDouble();
+                //to do
+                fring.add(child);
+            }
+        }
+
+    
     }
 
     public Tree(Tree copy) {

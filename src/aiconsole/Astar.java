@@ -1,16 +1,19 @@
 package aiconsole;
-import java.util.ArrayList;
-import java.util.List;
-public class UniormCost {
+
+/**
+ *
+ * @author Mahmoud
+ */
+public class Astar {
 
     Tree tree;
     String start;
     String goal;
 
-    public UniormCost() {
+    public Astar() {
     }
 
-    public UniormCost(Tree t, String Start, String Goal) {
+    public Astar(Tree t, String Start, String Goal) {
         tree = t;
         start = Start;
         goal = Goal;
@@ -36,4 +39,5 @@ public class UniormCost {
 
     }
 
+    
 }
