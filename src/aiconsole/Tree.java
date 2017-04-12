@@ -17,6 +17,7 @@ public class Tree<T> {
 
     Node<T> root;
     List<Tree> children;
+    boolean isHeursticsWasRead=false;
 
     public Tree() {
         this.children = new ArrayList<Tree>();
@@ -59,7 +60,7 @@ public class Tree<T> {
                 fring.add((Tree)currentNode.children.get(i));
             }
         }
-
+        this.isHeursticsWasRead=true;
     }
     public void readCosts()
     {
@@ -100,6 +101,11 @@ public class Tree<T> {
     }
 
     public void print() {
+        if(isEmpty()) 
+        {
+            System.out.println("!! Empty Tree !!");
+            return;
+        }
         System.out.print(root.data + ":");
         for (Tree n : children) {
             System.out.print(" " + n.root.data);
